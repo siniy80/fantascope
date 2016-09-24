@@ -38,7 +38,6 @@ def help(bot, update):
 
 def echo(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=update.message.text)
-    logger.debug("test: {}".format(update.message.text))
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
