@@ -18,6 +18,8 @@ bot.
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+import os
+import db
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -31,6 +33,12 @@ logger = logging.getLogger(__name__)
 def start(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Hi")
 
+def files(bot, update):
+    pp = "/data/storage/fantaskop2016.003.565mb" 
+    for i in os.listdir(pp):
+      tempPath = os.path.join(pp, i)
+      bot.sendMessage(chat_id=update.message.chat_id, text=tempPath)
+      #bot.sendAudio(chat_id=update.message.chat_id, audio=inFi)
 
 def help(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="Help")
@@ -44,14 +52,16 @@ def error(bot, update, error):
 
 
 def main():
+
     # Create the EventHandler and pass it your bot's token.
-    updater = Updater("258166012:AAHX_7yMjHJiZnWHFVDuJ5Onq8ywk8halO0")
+    updater = Updater(db.getToken())
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("files", files))
     dp.add_handler(CommandHandler("help", help))
 
     # on noncommand i.e message - echo the message on Telegram
